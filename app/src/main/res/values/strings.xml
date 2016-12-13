@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Test App</string>
+    <string name="action_settings">Settings</string>
+    <string name="btnUploadToServer">Upload to Server</string>
+    <string name="btnTakePicture">Upload  Image</string>
+    <string name="memberLogin"> Already a member? Login</string>
+    <string name="creatAccount"> Crate Account</string>
+    <string name="chooseFile"> Choose File</string>
+    <string name="subscribe"> Subscribe</string>
+    <string name="Password"> Password</string>
+    <string name="email"> Email</string>
+    <string name="name"> Name</string>
+    <string name="pick_date"> Birthday</string>
+
+</resources>
