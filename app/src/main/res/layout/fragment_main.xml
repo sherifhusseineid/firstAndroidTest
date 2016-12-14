@@ -45,6 +45,15 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/input_validation_email"
+                    android:textStyle="italic"
+                    android:text=""
+                    android:textColor="@android:color/holo_red_dark"
+                    android:layout_below="@+id/input_email"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <!-- Password Label -->
@@ -54,12 +63,22 @@
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin">
 
+
                 <EditText
                     android:id="@+id/input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/Password"
                     android:inputType="textPassword" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/input_validation_password"
+                    android:textStyle="italic"
+                    android:text=""
+                    android:textColor="@android:color/holo_red_dark"
+                    android:layout_below="@+id/input_password"
+                     />
             </android.support.design.widget.TextInputLayout>
 
             <!-- subscribe button  -->
