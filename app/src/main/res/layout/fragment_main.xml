@@ -79,6 +79,15 @@
                     android:textColor="@android:color/holo_red_dark"
                     android:layout_below="@+id/input_password"
                      />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/passwordInputValidationSuccess"
+                    android:textStyle="italic"
+                    android:text=""
+                    android:textColor="#0cf904"
+                    android:layout_below="@+id/input_password"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <!-- subscribe button  -->
