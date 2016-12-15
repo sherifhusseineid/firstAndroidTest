@@ -1,8 +1,6 @@
 package com.example.sherif.registrationscreen;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,12 +12,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.logging.Handler;
+
+
 
 /**
  * A placeholder fragment containing a simple view.
@@ -32,9 +30,8 @@ public class MainActivityFragment extends Fragment{
     EditText personEmail;
     EditText personPassword;
     TextView passwordInputValidation;
+    TextView passwordInputValidationSuccess;
     TextView EmailInputValidation;
-
-
     public MainActivityFragment() {
     }
 
@@ -45,15 +42,14 @@ public class MainActivityFragment extends Fragment{
         personName = (EditText)view.findViewById(R.id.input_name);
         personEmail = (EditText)view.findViewById(R.id.input_email);
         passwordInputValidation = (TextView) view.findViewById(R.id.input_validation_password);
+        passwordInputValidationSuccess = (TextView) view.findViewById(R.id.passwordInputValidationSuccess);
         EmailInputValidation = (TextView) view.findViewById(R.id.input_validation_email);
         personPassword = (EditText)view.findViewById(R.id.input_password);
         dateOfBirth = (Button) view.findViewById(R.id.date_button);
         registeration = (Button) view.findViewById(R.id.btn_signup);
 
-
-         final String email = personEmail.getText().toString().trim();
-         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
         personEmail.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -61,16 +57,16 @@ public class MainActivityFragment extends Fragment{
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                if (email.matches(emailPattern) && personEmail.length() > 0)
-                if ( personEmail.length() > 0)
+                if (personEmail.getText().toString().contains("@")&&personEmail.length() > 0)
                 {
                     EmailInputValidation.requestFocus();
                     EmailInputValidation.setText("VALID EMAIL");
+
                 }
                 else
                 {
                     EmailInputValidation.requestFocus();
-                    EmailInputValidation.setText("IN VALID EMAIL MUST CONTAIN @ AND .");
+                    EmailInputValidation.setText("IN VALID EMAIL MUST CONTAIN @");
                 }
             }
 
@@ -79,6 +75,7 @@ public class MainActivityFragment extends Fragment{
 
             }
         });
+
         personPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -87,6 +84,12 @@ public class MainActivityFragment extends Fragment{
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                passwordInputValidation.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
                 if(personPassword.length()==0)
                 {
                     passwordInputValidation.requestFocus();
@@ -103,12 +106,6 @@ public class MainActivityFragment extends Fragment{
                     passwordInputValidation.requestFocus();
                     passwordInputValidation.setText("Success");
                 }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
             }
         });
 
