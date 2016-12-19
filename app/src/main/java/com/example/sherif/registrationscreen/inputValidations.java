@@ -1,15 +1,19 @@
 package com.example.sherif.registrationscreen;
 
+import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.R.id.message;
 
 /**
  * Created by Sherif on 16/12/2016.
@@ -17,7 +21,7 @@ import java.util.regex.Pattern;
 
 public class inputValidations {
 
-    EditText text;
+    EditText text,confirmText;
     TextInputLayout textLayout;
     int textlength=0;
     Pattern pattern;
@@ -33,6 +37,13 @@ public class inputValidations {
         this.text = cText;
         this.textLayout = cTextLayout;
         this.textlength = cTextLength;
+    }
+
+    inputValidations(EditText password , TextInputLayout cTextLayout , EditText confirmPassword){
+        this.text = password;
+        this.confirmText = confirmPassword;
+        this.textLayout = cTextLayout;
+
     }
 
     public void validateUserName()
@@ -110,9 +121,7 @@ public class inputValidations {
 
     public void validatePassword()
     {
-
         text.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -145,10 +154,49 @@ public class inputValidations {
                 {
                     textLayout.setErrorEnabled(false);
 
+
                 }
             }
         });
     }
+
+    public void validateConfirmPassword()
+    {
+
+        text.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(text.getText().toString().equals(confirmText.getText().toString()))
+                {
+                    textLayout.setErrorEnabled(false);
+                }
+                else
+                {
+                    textLayout.setError("PASSWORD DO NOT MATCH");
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+              if(text.getText().toString().equals(confirmText.getText().toString()))
+                {
+                    textLayout.setErrorEnabled(false);
+                }
+                else
+                {
+                    textLayout.setError("PASSWORD DO NOT MATCH");
+                }
+            }
+        });
+    }
+
+
 
 
 }
