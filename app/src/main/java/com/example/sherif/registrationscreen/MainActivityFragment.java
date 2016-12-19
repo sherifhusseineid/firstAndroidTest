@@ -27,8 +27,8 @@ import java.util.Locale;
 public class MainActivityFragment extends Fragment{
 
     Button registeration,dateOfBirth;
-    EditText personName,personEmail,personPassword;
-    TextInputLayout personEmailLayout,personPasswordLayout,personNameLayout;
+    EditText personName,personEmail,personPassword,personConfirmPassword;
+    TextInputLayout personEmailLayout,personPasswordLayout,personNameLayout,PersonConfirmPasswordLayout;
 
     public MainActivityFragment() {
     }
@@ -43,15 +43,19 @@ public class MainActivityFragment extends Fragment{
         personEmailLayout = (TextInputLayout) view.findViewById(R.id.input_email_layout);
         personPassword = (EditText)view.findViewById(R.id.input_password);
         personPasswordLayout = (TextInputLayout) view.findViewById(R.id.input_password_layout);
+        personConfirmPassword = (EditText)view.findViewById(R.id.input_confirmpassword);
+        PersonConfirmPasswordLayout= (TextInputLayout) view.findViewById(R.id.input_confirmpassword_layout);
         dateOfBirth = (Button) view.findViewById(R.id.date_button);
         registeration = (Button) view.findViewById(R.id.btn_signup);
 
         inputValidations userName = new inputValidations(personName,personNameLayout,4);
         inputValidations email = new inputValidations(personEmail,personEmailLayout);
         inputValidations password = new inputValidations(personPassword,personPasswordLayout,4);
+        inputValidations confirmPassword = new inputValidations(personConfirmPassword,PersonConfirmPasswordLayout,personPassword);
         userName.validateUserName();
         email.validateEmail();
         password.validatePassword();
+        confirmPassword.validateConfirmPassword();
 
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
