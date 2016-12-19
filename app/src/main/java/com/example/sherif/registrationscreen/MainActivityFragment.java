@@ -1,10 +1,13 @@
 package com.example.sherif.registrationscreen;
 
 import android.app.DatePickerDialog;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,21 +20,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-
-
 /**
  * A placeholder fragment containing a simple view.
  */
+
 public class MainActivityFragment extends Fragment{
 
-    Button registeration;
-    Button dateOfBirth;
-    EditText personName;
-    EditText personEmail;
-    EditText personPassword;
-    TextView passwordInputValidation;
-    TextView passwordInputValidationSuccess;
-    TextView EmailInputValidation;
+    Button registeration,dateOfBirth;
+    EditText personName,personEmail,personPassword;
+    TextInputLayout personEmailLayout,personPasswordLayout,personNameLayout;
+
     public MainActivityFragment() {
     }
 
@@ -40,74 +38,20 @@ public class MainActivityFragment extends Fragment{
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_main, container, false);
         personName = (EditText)view.findViewById(R.id.input_name);
+        personNameLayout = (TextInputLayout)view.findViewById(R.id.input_name_layout);
         personEmail = (EditText)view.findViewById(R.id.input_email);
-        passwordInputValidation = (TextView) view.findViewById(R.id.input_validation_password);
-        passwordInputValidationSuccess = (TextView) view.findViewById(R.id.passwordInputValidationSuccess);
-        EmailInputValidation = (TextView) view.findViewById(R.id.input_validation_email);
+        personEmailLayout = (TextInputLayout) view.findViewById(R.id.input_email_layout);
         personPassword = (EditText)view.findViewById(R.id.input_password);
+        personPasswordLayout = (TextInputLayout) view.findViewById(R.id.input_password_layout);
         dateOfBirth = (Button) view.findViewById(R.id.date_button);
         registeration = (Button) view.findViewById(R.id.btn_signup);
 
-        personEmail.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (personEmail.getText().toString().contains("@")&&personEmail.length() > 0)
-                {
-                    EmailInputValidation.requestFocus();
-                    EmailInputValidation.setText("VALID EMAIL");
-
-                }
-                else
-                {
-                    EmailInputValidation.requestFocus();
-                    EmailInputValidation.setText("IN VALID EMAIL MUST CONTAIN @");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        personPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                passwordInputValidation.setVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(personPassword.length()==0)
-                {
-                    passwordInputValidation.requestFocus();
-                    passwordInputValidation.setText("Must Enter Password");
-                }
-
-                else if(personPassword.length() <6)
-                {
-                    passwordInputValidation.requestFocus();
-                    passwordInputValidation.setText("ENTER AT LEAST 6 WORDS");
-                }
-                else
-                {
-                    passwordInputValidation.requestFocus();
-                    passwordInputValidation.setText("Success");
-                }
-            }
-        });
+        inputValidations userName = new inputValidations(personName,personNameLayout,4);
+        inputValidations email = new inputValidations(personEmail,personEmailLayout);
+        inputValidations password = new inputValidations(personPassword,personPasswordLayout,4);
+        userName.validateUserName();
+        email.validateEmail();
+        password.validatePassword();
 
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,11 +97,7 @@ public class MainActivityFragment extends Fragment{
 //
 //            }
 //        });
-
-
         return view;
-
-
     }
 
 }
