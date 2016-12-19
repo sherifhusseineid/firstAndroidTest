@@ -22,7 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin">
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/input_name_layout">
 
                 <EditText
                     android:id="@+id/input_name"
@@ -37,7 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin">
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/input_email_layout">
 
                 <EditText
                     android:id="@+id/input_email"
@@ -45,15 +47,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/input_validation_email"
-                    android:textStyle="italic"
-                    android:text=""
-                    android:textColor="@android:color/holo_red_dark"
-                    android:layout_below="@+id/input_email"
-                    />
+
             </android.support.design.widget.TextInputLayout>
 
             <!-- Password Label -->
@@ -61,7 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin">
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/input_password_layout">
 
 
                 <EditText
@@ -70,24 +65,26 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/Password"
                     android:inputType="textPassword" />
-                <TextView
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Confirm password label -->
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/input_confirmpassword_layout">
+
+
+                <EditText
+                    android:id="@+id/input_confirmpassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/input_validation_password"
-                    android:textStyle="italic"
-                    android:text=""
-                    android:textColor="@android:color/holo_red_dark"
-                    android:layout_below="@+id/input_password"
-                     />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/passwordInputValidationSuccess"
-                    android:textStyle="italic"
-                    android:text=""
-                    android:textColor="#0cf904"
-                    android:layout_below="@+id/input_password"
-                    />
+                    android:hint="@string/confirmPassword"
+                    android:inputType="textPassword" />
+
             </android.support.design.widget.TextInputLayout>
 
             <!-- subscribe button  -->
@@ -150,7 +147,7 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:onClick="showDatePickerDialog" />
+             />
 
             <!--<Spinner-->
             <!--android:id="@+id/spinnerDate"-->
@@ -159,6 +156,15 @@
             <!--android:layout_marginTop="8dp"-->
             <!--android:layout_marginBottom="8dp"-->
             <!--/>-->
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="24dp"
+                android:padding="12dp"
+                android:text="@string/location" />
 
             <!-- Signup Button -->
             <android.support.v7.widget.AppCompatButton
