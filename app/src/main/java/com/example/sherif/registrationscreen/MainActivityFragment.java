@@ -50,7 +50,7 @@ public class MainActivityFragment extends Fragment{
 
         inputValidations userName = new inputValidations(personName,personNameLayout,4);
         inputValidations email = new inputValidations(personEmail,personEmailLayout);
-        inputValidations password = new inputValidations(personPassword,personPasswordLayout,4);
+        inputValidations password = new inputValidations(personPassword,personPasswordLayout,4,personConfirmPassword,PersonConfirmPasswordLayout);
         inputValidations confirmPassword = new inputValidations(personConfirmPassword,PersonConfirmPasswordLayout,personPassword);
         userName.validateUserName();
         email.validateEmail();
