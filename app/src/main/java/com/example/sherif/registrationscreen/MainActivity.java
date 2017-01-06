@@ -1,5 +1,6 @@
 package com.example.sherif.registrationscreen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.text.TextUtils;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+//    public void sendLocation(View view) {
+//        Intent intent = new Intent(this, MapsActivity.class);
+//        startActivity(intent);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
