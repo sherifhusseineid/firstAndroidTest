@@ -1,12 +1,19 @@
 package com.example.sherif.registrationscreen;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +22,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,11 +33,16 @@ import java.util.Locale;
  * A placeholder fragment containing a simple view.
  */
 
-public class MainActivityFragment extends Fragment{
+public class MainActivityFragment extends Fragment {
 
-    Button registeration,dateOfBirth;
+//    private static final int REQUEST_CODE_PERMISSION = 2;
+//    String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+    GPSTracker gps;
+
+    Button registeration,dateOfBirth,sendLocation;
     EditText personName,personEmail,personPassword,personConfirmPassword;
     TextInputLayout personEmailLayout,personPasswordLayout,personNameLayout,PersonConfirmPasswordLayout;
+
 
     public MainActivityFragment() {
     }
@@ -46,6 +60,7 @@ public class MainActivityFragment extends Fragment{
         personConfirmPassword = (EditText)view.findViewById(R.id.input_confirmpassword);
         PersonConfirmPasswordLayout= (TextInputLayout) view.findViewById(R.id.input_confirmpassword_layout);
         dateOfBirth = (Button) view.findViewById(R.id.date_button);
+        sendLocation = (Button) view.findViewById(R.id.btn_location);
         registeration = (Button) view.findViewById(R.id.btn_signup);
 
         inputValidations userName = new inputValidations(personName,personNameLayout,4);
@@ -76,6 +91,30 @@ public class MainActivityFragment extends Fragment{
                 datePickerDialog.show();
             }
         });
+        sendLocation.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                gps = new GPSTracker(getActivity());
+                // check if GPS enabled
+                if(gps.canGetLocation()){
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
+                    // \n is for new line
+//                    Toast.makeText(getActivity(), "Your Location is - \nLat: "+ latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(getActivity(),MapsActivity.class);
+                    Bundle b = new Bundle();
+                    b.putDouble("lat", latitude);
+                    b.putDouble("lon", longitude);
+                    i.putExtras(b);
+                    startActivity(i);
+
+                }else{
+                    // can't get location
+                    // GPS or Network is not enabled
+                    // Ask user to enable GPS/network in settings
+                    gps.showSettingsAlert();
+                }
+            }
+        });
 
 //        registeration.setOnClickListener(new View.OnClickListener(){
 //
@@ -103,5 +142,6 @@ public class MainActivityFragment extends Fragment{
 //        });
         return view;
     }
+
 
 }
