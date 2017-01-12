@@ -57,6 +57,7 @@ public class inputValidations {
     {
 
         text.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -68,23 +69,27 @@ public class inputValidations {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void  afterTextChanged(Editable editable) {
                 if(TextUtils.isEmpty(text.getText().toString().trim()))
                 {
                     textLayout.setError("MUST ENTER USERNAME");
+
                 }
 
                 else if(TextUtils.getTrimmedLength(text.getText().toString().trim()) < textlength)
                 {
                     textLayout.setError("ENTER AT LEAST" + textlength +" WORDS");
+
                 }
 
                 else
                 {
                     textLayout.setErrorEnabled(false);
+
                 }
             }
         });
+
     }
 
     public void validateEmail()
