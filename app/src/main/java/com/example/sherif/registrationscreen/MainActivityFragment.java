@@ -1,33 +1,23 @@
 package com.example.sherif.registrationscreen;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -63,7 +53,7 @@ public class MainActivityFragment extends Fragment {
         sendLocation = (Button) view.findViewById(R.id.btn_location);
         registeration = (Button) view.findViewById(R.id.btn_signup);
 
-        inputValidations userName = new inputValidations(personName,personNameLayout,4);
+         inputValidations userName = new inputValidations(personName,personNameLayout,4);
         inputValidations email = new inputValidations(personEmail,personEmailLayout);
         inputValidations password = new inputValidations(personPassword,personPasswordLayout,4,personConfirmPassword,PersonConfirmPasswordLayout);
         inputValidations confirmPassword = new inputValidations(personConfirmPassword,PersonConfirmPasswordLayout,personPassword);
@@ -105,7 +95,7 @@ public class MainActivityFragment extends Fragment {
                     b.putDouble("lat", latitude);
                     b.putDouble("lon", longitude);
                     i.putExtras(b);
-                    startActivity(i);
+                    startActivityForResult(i, 1);
 
                 }else{
                     // can't get location
@@ -115,32 +105,32 @@ public class MainActivityFragment extends Fragment {
                 }
             }
         });
+        registeration.setOnClickListener(new View.OnClickListener(){
 
-//        registeration.setOnClickListener(new View.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View view) {
-//                validationForm();
-//            }
-//
-//            private void validationForm() {
-//                if (personName.getText().toString().length()==0)
-//                {
-//                    personName.setError("The name is required");
-//                    personName.requestFocus();
-//                }
-//                if (personEmail.getText().toString().length()==0)
-//                {
-//                    personEmail.setError("The Email is required");
-//                    personEmail.requestFocus();
-//                }
-//                else {
-//                    Toast.makeText(getActivity().getBaseContext(), "Success", Toast.LENGTH_LONG).show();
-//                }
-//
-//            }
-//        });
+            @Override
+            public void onClick(View view) {
+                sendFormValues();
+            }
+
+            private void sendFormValues() {
+                inputValidations userName = new inputValidations(personName,personNameLayout,4);
+
+
+            }
+        });
+
         return view;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                String strEditText=data.getStringExtra("lat-long");
+//                Toast.makeText(getActivity(),strEditText,Toast.LENGTH_SHORT).show();
+                sendLocation.setText(strEditText);
+            }
+        }
     }
 
 
