@@ -115,7 +115,6 @@ public class MainActivityFragment extends Fragment {
             private void sendFormValues() {
                 inputValidations userName = new inputValidations(personName,personNameLayout,4);
 
-
             }
         });
 
