@@ -1,5 +1,6 @@
 package com.example.sherif.registrationscreen;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,7 +10,9 @@ import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     boolean markerClicked = true;
     private  Marker marker;
-
+    Button locationAfterSubmit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);
         mapFragment.getMapAsync(this);
+        locationAfterSubmit = (Button) findViewById(R.id.saved_location);
+        locationAfterSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                sendLocation();
+            }
+            private void sendLocation() {
+                Intent i = new Intent();
+                i.putExtra("lat-long",marker.getPosition().toString());
+                setResult(RESULT_OK, i);
+                finish();
+//                Bundle b = new Bundle();
+//                b.putDouble("lat", marker.getPosition().latitude);
+//                b.putDouble("lon", marker.getPosition().longitude);
+//                i.putExtras(b);
+//                startActivity(i);
+// Toast.makeText(MapsActivity.this,marker.getPosition().toString()+"Welcome Sherif",Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
@@ -117,6 +141,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(MapsActivity.this,marker.getPosition().toString()+"on markend",Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
     }
 
