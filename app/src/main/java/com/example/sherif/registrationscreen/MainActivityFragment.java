@@ -55,7 +55,7 @@ import static io.realm.Realm.getDefaultInstance;
 public class MainActivityFragment extends Fragment {
 
     //    private static final int REQUEST_CODE_PERMISSION = 2;
-//    String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+   //     String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
     GPSTracker gps;
     Button registeration, dateOfBirth, sendLocation;
     EditText personName, personEmail, personPassword, personConfirmPassword;
@@ -74,16 +74,17 @@ public class MainActivityFragment extends Fragment {
     private Realm mRealm;
     private boolean isActionDown = false;
 
-
     public MainActivityFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         personName = (EditText) view.findViewById(R.id.input_name);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
         personNameLayout = (TextInputLayout) view.findViewById(R.id.input_name_layout);
         personEmail = (EditText) view.findViewById(R.id.input_email);
         personEmailLayout = (TextInputLayout) view.findViewById(R.id.input_email_layout);
@@ -97,7 +98,6 @@ public class MainActivityFragment extends Fragment {
         dateOfBirth = (Button) view.findViewById(R.id.date_button);
         sendLocation = (Button) view.findViewById(R.id.btn_location);
         registeration = (Button) view.findViewById(R.id.btn_signup);
-
 
         inputValidations userName = new inputValidations(personName, personNameLayout, registeration, 4);
         inputValidations email = new inputValidations(personEmail, personEmailLayout, registeration);
@@ -220,7 +220,7 @@ public class MainActivityFragment extends Fragment {
                 }
                  else{
 //                    // Create an object
-//                    mRealm = Realm.getDefaultInstance();
+//                   mRealm = Realm.getDefaultInstance();
                     MyUsers person = new MyUsers();
                     // Set its fields
                     person.setName(personName.getText().toString());
