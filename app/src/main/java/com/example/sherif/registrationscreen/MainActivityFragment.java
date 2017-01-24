@@ -53,7 +53,6 @@ import static io.realm.Realm.getDefaultInstance;
  */
 
 public class MainActivityFragment extends Fragment {
-
     //    private static final int REQUEST_CODE_PERMISSION = 2;
    //     String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
     GPSTracker gps;
@@ -83,8 +82,7 @@ public class MainActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         personName = (EditText) view.findViewById(R.id.input_name);
         RealmConfiguration config = new RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded()
-                .build();
+                .deleteRealmIfMigrationNeeded().build();
         personNameLayout = (TextInputLayout) view.findViewById(R.id.input_name_layout);
         personEmail = (EditText) view.findViewById(R.id.input_email);
         personEmailLayout = (TextInputLayout) view.findViewById(R.id.input_email_layout);
@@ -98,7 +96,7 @@ public class MainActivityFragment extends Fragment {
         dateOfBirth = (Button) view.findViewById(R.id.date_button);
         sendLocation = (Button) view.findViewById(R.id.btn_location);
         registeration = (Button) view.findViewById(R.id.btn_signup);
-
+        mRealm = Realm.getDefaultInstance();
         inputValidations userName = new inputValidations(personName, personNameLayout, registeration, 4);
         inputValidations email = new inputValidations(personEmail, personEmailLayout, registeration);
         inputValidations password = new inputValidations(personPassword, personPasswordLayout, 4, personConfirmPassword, PersonConfirmPasswordLayout, registeration);
@@ -219,28 +217,42 @@ public class MainActivityFragment extends Fragment {
                     registeration.setEnabled(false);
                 }
                  else{
-//                    // Create an object
-//                   mRealm = Realm.getDefaultInstance();
+                    // Create an object
                     MyUsers person = new MyUsers();
                     // Set its fields
                     person.setName(personName.getText().toString());
                     person.setEmail(personEmail.getText().toString());
                     person.setPassword(personPassword.getText().toString());
                     addDataToRealm(person);
+                    Intent intent = new Intent(getActivity(),ShowUsers.class);
+                    //intent.putExtra("age",ageText.getText().toString());
+                    startActivityForResult(intent,3);
+
                 }
             }
         });
         return view;
     }
 
-    private void addDataToRealm(MyUsers model) {
-        mRealm.beginTransaction();
-//        MyUsers person = mRealm.createObject(MyUsers.class,UUID.randomUUID().toString());
-        MyUsers person = mRealm.createObject(MyUsers.class);
-        person.setName(model.getName());
-        person.setEmail(model.getEmail());
-        person.setPassword(model.getPassword());
-        mRealm.commitTransaction();
+    private void addDataToRealm(final MyUsers model) {
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealm(model);
+                personName.setText(null);
+                personEmail.setText(null);
+                personPassword.setText(null);
+                personConfirmPassword.setText(null);
+            }
+        });
+//        mRealm.beginTransaction();
+//      MyUsers person = mRealm.createObject(MyUsers.class,UUID.randomUUID().toString());
+      // mRealm.copyToRealm(model);
+
+//        person.setName(model.getName());
+//        person.setEmail(model.getEmail());
+//        person.setPassword(model.getPassword());
+       // mRealm.commitTransaction();
     }
 
 
