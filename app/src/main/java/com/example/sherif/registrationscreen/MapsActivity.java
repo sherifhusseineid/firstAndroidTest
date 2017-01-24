@@ -51,7 +51,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationAfterSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 sendLocation();
             }
             private void sendLocation() {
@@ -67,10 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 // Toast.makeText(MapsActivity.this,marker.getPosition().toString()+"Welcome Sherif",Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
-
 
     /**
      * Manipulates the map once available.
@@ -81,6 +77,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -111,7 +109,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.animateCamera(CameraUpdateFactory.newLatLng(point));
                     marker =  mMap.addMarker(new MarkerOptions().position(point).title(String.valueOf(newlat) + "------" + String.valueOf(newLon)).draggable(true));
                 }
-
 
             }
         });
