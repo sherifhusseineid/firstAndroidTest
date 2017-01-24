@@ -120,20 +120,36 @@
                 android:weightSum="1">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/pickPic"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
                     android:text="@string/chooseFile"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:layout_weight="0.68" />
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btnCapturePicture"
-                    android:layout_width="0dp"
+                <!--<android.support.v7.widget.AppCompatButton-->
+                    <!--android:id="@+id/btnCapturePicture"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@color/btn_bg"-->
+                    <!--android:layout_weight="0.5"-->
+                    <!--android:text="@string/btnTakePicture"-->
+                    <!--android:textColor="@color/white" />-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/picImgView"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="0.5"-->
+                    <!--android:src="@drawable/upload_icon"-->
+                    <!--/>-->
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/picImgView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/btn_bg"
-                    android:layout_weight="0.5"
-                    android:text="@string/btnTakePicture"
-                    android:textColor="@color/white" />
+                    android:layout_gravity="bottom|end"
+                    android:src="@drawable/upload_icon"
+                    android:layout_weight="0.40" />
             </LinearLayout>
 
 
@@ -171,6 +187,19 @@
                 android:padding="12dp"
                 android:text="@string/location"
                 android:onClick="sendLocation" />
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recordImageView"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/bitmap"
+                android:layout_weight="0.06" />
+
+
+
 
             <!-- Signup Button -->
             <android.support.v7.widget.AppCompatButton
