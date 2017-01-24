@@ -41,7 +41,4 @@ public class MyUsers extends RealmObject {
 
     public void setPassword(String password) {this.password = password;}
 
-
-
-
 }
