@@ -81,9 +81,7 @@ public class ShowUsers extends AppCompatActivity {
 
     }
 
-    public static ShowUsers getInstance() {
-        return instance;
-    }
+
 
 //    private void setPersonDetailsAdapter() {
 //        personDetailsAdapter = new PersonDetailsAdapter(MainActivity.this, personDetailsModelArrayList);
