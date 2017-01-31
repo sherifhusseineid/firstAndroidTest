@@ -1,5 +1,6 @@
 package com.example.sherif.registrationscreen;
 
+import java.lang.reflect.Array;
 import java.util.Date;
 
 import io.realm.RealmObject;
@@ -19,6 +20,13 @@ public class MyUsers extends RealmObject {
     private String email;
     @Required
     private  String password;
+    @Required
+    private String subscribe;
+
+    private String favMovies;
+
+    private byte[] profilePic;
+
 
 
     public String getName() {
@@ -40,5 +48,25 @@ public class MyUsers extends RealmObject {
     public String getPassword() {return  password;}
 
     public void setPassword(String password) {this.password = password;}
+
+    public void setSubscribe(String subscribe)
+    {
+        this.subscribe = subscribe;
+    }
+
+    public String getSubscribe()
+    {
+        return subscribe;
+    }
+
+    public void setFavMovies(String favMovies) {this.favMovies = favMovies;}
+
+    public String getFavMovies() {return favMovies;}
+
+    public void setProfilePic(byte[] profilePic) {this.profilePic = profilePic;}
+
+    public byte[] getProfilePic() {return profilePic;}
+
+
 
 }

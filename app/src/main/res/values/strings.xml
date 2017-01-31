@@ -19,5 +19,6 @@
     <string name="title_activity_maps">Map</string>
     <string name="buttonName">Saved Location</string>
     <string name="title_activity_show_users">ShowUsers</string>
+    <string name="title_activity_show_user_details">ShowUserDetails</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.example.sherif.registrationscreen;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,11 +15,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.sherif.registrationscreen.adapters.UsersAdapter;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -28,90 +36,38 @@ import io.realm.internal.Context;
 
 public class ShowUsers extends AppCompatActivity {
    private Realm realm;
-//    RealmList<MyUsers> listOfUsers = new RealmList<>();
     RealmResults<MyUsers> results;
-
-    TextView name,email,password;
-
     ListView lvPersonNameList;
-    private static ArrayList<MyUsers> personDetailsModelArrayList = new ArrayList<>();
-    // PersonDetailsAdapter personDetailsAdapter;
-     static ShowUsers instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_users);
-        RealmConfiguration config = new RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded().build();
         realm = Realm.getDefaultInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        results = realm.where(MyUsers.class).findAll();
+        lvPersonNameList =  (ListView) findViewById(R.id.lvPersonNameList);
+        final UsersAdapter adapter = new UsersAdapter(this,realm.where(MyUsers.class).findAll());
+//        Map<String,String> userMap;
 
-//        name = (TextView) findViewById(R.id.name);
-//        email = (TextView) findViewById(R.id.email);
-//        password = (TextView) findViewById(R.id.password);
-//        for(MyUsers users : results)
-//        {
-//            name.setText(users.getName());
-//            email.setText(users.getEmail());
-//            password.setText(users.getPassword());
-//        }
-//        MyUsers[] resultArray = (MyUsers[]) results.toArray();
-//
-//        name.setText(resultArray.getClass().getName());
-
-         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
-
-
-//        MyUsers[] resultArray = (MyUsers[]) allUsers.toArray();
-//        for (int i=0;i<allUsers.size();i++)
-//        {
-//            listOfUsers.add(allUsers.get(i));
-//        }
-
-        fab.setOnClickListener(new View.OnClickListener() {
+        lvPersonNameList.setAdapter(adapter);
+        lvPersonNameList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                MyUsers user = adapter.getItem(i);
+//                Toast.makeText(ShowUsers.this, "Your "+ user.getEmail(), Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(ShowUsers.this,ShowUserDetails.class);
+                intent.putExtra("userName", user.getName());
+                intent.putExtra("email", user.getEmail());
+                intent.putExtra("password", user.getPassword());
+                intent.putExtra("subscribe",user.getSubscribe());
+                intent.putExtra("favMovies",user.getFavMovies());
+                intent.putExtra("profilePic",user.getProfilePic());
+                startActivity(intent);
+
             }
         });
 
     }
-
-
-
-//    private void setPersonDetailsAdapter() {
-//        personDetailsAdapter = new PersonDetailsAdapter(MainActivity.this, personDetailsModelArrayList);
-//        lvPersonNameList.setAdapter(personDetailsAdapter);
-//    }
-
-//    private void bindWidgetsWithEvents() {
-//        lvPersonNameList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent=new Intent(MainActivity.this,PersonDetailsActivity.class);
-//                intent.putExtra("PersonID", personDetailsModelArrayList.get(position).getId());
-//                startActivity(intent);
-//            }
-//        });
-//    }
-
-    private void getAllUsers() {
-        results = realm.where(MyUsers.class).findAll();
-
-        realm.beginTransaction();
-
-        for (int i = 0; i < results.size(); i++) {
-            personDetailsModelArrayList.add(results.get(i));
-        }
-        realm.commitTransaction();
-        //personDetailsAdapter.notifyDataSetChanged();
-    }
-
-
-
 }
-
