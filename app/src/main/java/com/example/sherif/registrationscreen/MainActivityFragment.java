@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
@@ -17,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -25,12 +28,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -59,7 +66,9 @@ public class MainActivityFragment extends Fragment {
     Button registeration, dateOfBirth, sendLocation;
     EditText personName, personEmail, personPassword, personConfirmPassword;
     TextView uploadPic;
-    ImageView imgView, recordVoice;
+    SwitchCompat subscribe;
+    Spinner favMovies;
+    ImageView  imgView,displayImage,recordVoice;
     TextInputLayout personEmailLayout, personPasswordLayout, personNameLayout, PersonConfirmPasswordLayout;
     private static int RESULT_LOAD_IMAGE = 2;
     private static final String AUDIO_RECORDER_FILE_EXT_3GP = ".3gp";
@@ -81,8 +90,6 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         personName = (EditText) view.findViewById(R.id.input_name);
-        RealmConfiguration config = new RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded().build();
         personNameLayout = (TextInputLayout) view.findViewById(R.id.input_name_layout);
         personEmail = (EditText) view.findViewById(R.id.input_email);
         personEmailLayout = (TextInputLayout) view.findViewById(R.id.input_email_layout);
@@ -92,10 +99,13 @@ public class MainActivityFragment extends Fragment {
         PersonConfirmPasswordLayout = (TextInputLayout) view.findViewById(R.id.input_confirmpassword_layout);
         uploadPic = (TextView) view.findViewById(R.id.pickPic);
         imgView = (ImageView) view.findViewById(R.id.picImgView);
+        displayImage = (ImageView) view.findViewById(R.id.display_image);
         recordVoice = (ImageView) view.findViewById(R.id.recordImageView);
         dateOfBirth = (Button) view.findViewById(R.id.date_button);
         sendLocation = (Button) view.findViewById(R.id.btn_location);
         registeration = (Button) view.findViewById(R.id.btn_signup);
+        subscribe = (SwitchCompat) view.findViewById(R.id.subscribe);
+        favMovies = (Spinner) view.findViewById(R.id.spinner);
         mRealm = Realm.getDefaultInstance();
         inputValidations userName = new inputValidations(personName, personNameLayout, registeration, 4);
         inputValidations email = new inputValidations(personEmail, personEmailLayout, registeration);
@@ -132,7 +142,7 @@ public class MainActivityFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                startActivityForResult(i, 2);
             }
         });
 
@@ -171,6 +181,27 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
+        subscribe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b)
+                {
+                    subscribe.setText("ON");
+                }
+                else
+                {
+                    subscribe.setText("OFF");
+                }
+            }
+        });
+
+//        check the current state before we display the screen
+//        if(subscribe.isChecked()){
+//            subscribe.setText("ON");
+//        }
+//        else {
+//            subscribe.setText("OFF");
+//        }
 
         sendLocation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -223,6 +254,14 @@ public class MainActivityFragment extends Fragment {
                     person.setName(personName.getText().toString());
                     person.setEmail(personEmail.getText().toString());
                     person.setPassword(personPassword.getText().toString());
+                    person.setSubscribe(subscribe.getText().toString());
+                    person.setFavMovies(favMovies.getSelectedItem().toString());
+
+                    Bitmap bmp = ((BitmapDrawable)displayImage.getDrawable()).getBitmap();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    person.setProfilePic(byteArray);
                     addDataToRealm(person);
                     Intent intent = new Intent(getActivity(),ShowUsers.class);
                     //intent.putExtra("age",ageText.getText().toString());
@@ -243,6 +282,7 @@ public class MainActivityFragment extends Fragment {
                 personEmail.setText(null);
                 personPassword.setText(null);
                 personConfirmPassword.setText(null);
+                subscribe.setText(null);
             }
         });
 //        mRealm.beginTransaction();
@@ -363,6 +403,7 @@ public class MainActivityFragment extends Fragment {
                 sendLocation.setText(strEditText);
             }
         }
+        try{
         if (requestCode == 2) {
             // Get the url from data
             Uri selectedImageUri = data.getData();
@@ -371,13 +412,21 @@ public class MainActivityFragment extends Fragment {
                 String path = getPathFromURI(selectedImageUri);
                 Log.i(TAG, "Image Path : " + path);
                 // Set the image in ImageView
-                imgView.setImageURI(selectedImageUri);
-                imgView.setMaxWidth(100);
-                imgView.setMaxHeight(100);
+                displayImage.setImageURI(selectedImageUri);
+                displayImage.setMaxWidth(30);
+                displayImage.setMaxHeight(30);
             }
-        }
 
+
+        }
+    }
+
+    catch (Exception e){
+        //Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_LONG).show();
+    }
 
     }
 
 }
+
+
