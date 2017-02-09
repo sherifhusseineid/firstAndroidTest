@@ -62,4 +62,14 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginBottom="10dp"/>
+
+    <!--<TextView-->
+        <!--android:text="Birth date"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/subscribe"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginStart="14dp"-->
+        <!--android:layout_marginTop="50dp"-->
+        <!--android:id="@+id/birthDate" />-->
 </RelativeLayout>
