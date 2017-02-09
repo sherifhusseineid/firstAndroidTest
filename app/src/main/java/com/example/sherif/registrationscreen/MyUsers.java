@@ -12,8 +12,8 @@ import io.realm.annotations.Required;
  */
 
 public class MyUsers extends RealmObject {
-//    @PrimaryKey
-//    private String id;
+    @PrimaryKey
+    private int id;
     @Required
     private String name;
     @Required
@@ -27,6 +27,8 @@ public class MyUsers extends RealmObject {
 
     private byte[] profilePic;
 
+    private String birthDate;
+
 
 
     public String getName() {
@@ -37,9 +39,9 @@ public class MyUsers extends RealmObject {
         this.name = name;
     }
 //
-//    public String getId () {return  id;}
-//
-//    public void setId (String id) {this.id = id;}
+    public int getId () {return  id;}
+
+    public void setId (int id) {this.id = id;}
 
     public String getEmail() {return  email;}
 
@@ -67,6 +69,15 @@ public class MyUsers extends RealmObject {
 
     public byte[] getProfilePic() {return profilePic;}
 
+    public void setBirthDate(String birthDate)
+    {
+        this.birthDate = birthDate;
+    }
+
+    public String getBirthDate()
+    {
+        return birthDate;
+    }
 
 
 }

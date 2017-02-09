@@ -18,7 +18,7 @@ import java.io.ByteArrayOutputStream;
 
 public class ShowUserDetails extends AppCompatActivity {
 
-    TextView name,email,password,subscribe,favMovies;
+    TextView name,email,password,subscribe,favMovies,birthDate;
     ImageView profilePic;
 
     @Override
@@ -34,6 +34,7 @@ public class ShowUserDetails extends AppCompatActivity {
         String userPassword = userDetails.getStringExtra("password");
         String userSubscribe = userDetails.getStringExtra("subscribe");
         String userFavMovies = userDetails.getStringExtra("favMovies");
+        String userBirthDate = userDetails.getStringExtra("birthDate");
 //        String userProfilePic = userDetails.getStringExtra("profilePic");
 //        Bitmap bitmap = (Bitmap) userDetails.getParcelableExtra("profilePic");
 
@@ -46,12 +47,14 @@ public class ShowUserDetails extends AppCompatActivity {
         subscribe = (TextView) findViewById(R.id.subscribe);
         favMovies = (TextView) findViewById(R.id.favMovies);
         profilePic = (ImageView) findViewById(R.id.display_image);
+//        birthDate = (TextView) findViewById(R.id.birthDate);
         name.setText(userName);
         email.setText(userEmail);
         password.setText(userPassword);
         subscribe.setText(userSubscribe);
         favMovies.setText(userFavMovies);
         profilePic.setImageBitmap(bmp);
+//        birthDate.setText(userBirthDate);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,4 +1,6 @@
 package com.example.sherif.registrationscreen;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -51,6 +53,7 @@ import io.realm.RealmResults;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.R.attr.id;
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 import static io.realm.Realm.getDefaultInstance;
@@ -62,6 +65,7 @@ import static io.realm.Realm.getDefaultInstance;
 public class MainActivityFragment extends Fragment {
     //    private static final int REQUEST_CODE_PERMISSION = 2;
    //     String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+
     GPSTracker gps;
     Button registeration, dateOfBirth, sendLocation;
     EditText personName, personEmail, personPassword, personConfirmPassword;
@@ -82,7 +86,10 @@ public class MainActivityFragment extends Fragment {
     private Realm mRealm;
     private boolean isActionDown = false;
 
+     static MainActivityFragment instance;
+
     public MainActivityFragment() {
+
     }
 
     @Override
@@ -107,6 +114,7 @@ public class MainActivityFragment extends Fragment {
         subscribe = (SwitchCompat) view.findViewById(R.id.subscribe);
         favMovies = (Spinner) view.findViewById(R.id.spinner);
         mRealm = Realm.getDefaultInstance();
+        instance = this;
         inputValidations userName = new inputValidations(personName, personNameLayout, registeration, 4);
         inputValidations email = new inputValidations(personEmail, personEmailLayout, registeration);
         inputValidations password = new inputValidations(personPassword, personPasswordLayout, 4, personConfirmPassword, PersonConfirmPasswordLayout, registeration);
@@ -251,11 +259,23 @@ public class MainActivityFragment extends Fragment {
                     // Create an object
                     MyUsers person = new MyUsers();
                     // Set its fields
+                    Number currentId = mRealm.where(MyUsers.class).max("id");
+                    int nextId;
+                    if (currentId == null){
+                        nextId = 1;
+                    }
+                    else {
+                        nextId = currentId.intValue() + 1;
+                    }
+
+                    Log.i(TAG, "idsherifeid : " + nextId);
+                    person.setId(nextId);
                     person.setName(personName.getText().toString());
                     person.setEmail(personEmail.getText().toString());
                     person.setPassword(personPassword.getText().toString());
                     person.setSubscribe(subscribe.getText().toString());
                     person.setFavMovies(favMovies.getSelectedItem().toString());
+//                  person.setBirthDate(dateOfBirth.getText().toString());
 
                     Bitmap bmp = ((BitmapDrawable)displayImage.getDrawable()).getBitmap();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -273,6 +293,11 @@ public class MainActivityFragment extends Fragment {
         return view;
     }
 
+
+    public static  MainActivityFragment getInstance()
+    {
+        return instance;
+    }
     private void addDataToRealm(final MyUsers model) {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -283,6 +308,8 @@ public class MainActivityFragment extends Fragment {
                 personPassword.setText(null);
                 personConfirmPassword.setText(null);
                 subscribe.setText(null);
+                displayImage.setImageBitmap(null);
+//                dateOfBirth.setText(null);
             }
         });
 //        mRealm.beginTransaction();
@@ -293,6 +320,26 @@ public class MainActivityFragment extends Fragment {
 //        person.setEmail(model.getEmail());
 //        person.setPassword(model.getPassword());
        // mRealm.commitTransaction();
+    }
+
+    public MyUsers searchPerson(int personId)
+    {
+        //Toast.makeText(getActivity(), "Ya rab al edit tashta8l", Toast.LENGTH_LONG).show();
+
+        mRealm.beginTransaction();
+        RealmResults<MyUsers> results = mRealm.where(MyUsers.class).equalTo("id", personId).findAll();
+        mRealm.commitTransaction();
+        return results.get(0);
+    }
+
+    public void addOrUpdatePersonDetailsDialog(final MyUsers model,final int position)
+    {
+//        getView();
+        personName.setText(model.getName());
+        personEmail.setText(model.getEmail());
+        personPassword.setText(model.getPassword());
+
+
     }
 
 
