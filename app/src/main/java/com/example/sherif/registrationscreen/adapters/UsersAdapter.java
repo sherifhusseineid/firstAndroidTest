@@ -1,16 +1,28 @@
 package com.example.sherif.registrationscreen.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Context;
+import android.widget.Toast;
+
+import com.example.sherif.registrationscreen.MainActivity;
+import com.example.sherif.registrationscreen.MainActivityFragment;
 import com.example.sherif.registrationscreen.MyUsers;
 import com.example.sherif.registrationscreen.R;
+import com.example.sherif.registrationscreen.ShowUserDetails;
+import com.example.sherif.registrationscreen.ShowUsers;
 
+import io.realm.Realm;
 import io.realm.RealmResults;
+
+import static com.example.sherif.registrationscreen.R.id.tvPersonName;
 
 
 /**
@@ -20,7 +32,10 @@ import io.realm.RealmResults;
 public class UsersAdapter extends BaseAdapter {
 
     private final Activity context;
+    private int personId;
+    private int position;
     private RealmResults<MyUsers> results;
+    Realm realm;
 
     public UsersAdapter(Activity context,RealmResults<MyUsers> results) {
         this.context = context;
@@ -30,6 +45,9 @@ public class UsersAdapter extends BaseAdapter {
     private static class ViewHolder
     {
         TextView tvPersonName;
+        ImageView delete;
+        ImageView edit;
+
     }
 
 
@@ -48,8 +66,10 @@ public class UsersAdapter extends BaseAdapter {
         return 0;
     }
 
+
+
     @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
+    public View getView(final int i, final View convertView, final ViewGroup viewGroup) {
         View view;
         if (convertView == null)
         {
@@ -57,7 +77,9 @@ public class UsersAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.inflate_list_item,viewGroup,false);
 
             final UsersAdapter.ViewHolder  viewHolder = new UsersAdapter.ViewHolder();
-            viewHolder.tvPersonName = (TextView) view.findViewById(R.id.tvPersonName);
+            viewHolder.tvPersonName = (TextView) view.findViewById(tvPersonName);
+            viewHolder.delete = (ImageView) view.findViewById(R.id.cell_trash_button);
+            viewHolder.edit = (ImageView) view.findViewById(R.id.ivEditPesonDetail);
             view.setTag(viewHolder);
         }
         else {
@@ -66,8 +88,40 @@ public class UsersAdapter extends BaseAdapter {
         final MyUsers current = getItem(i);
         UsersAdapter.ViewHolder holdr = (UsersAdapter.ViewHolder) view.getTag();
         holdr.tvPersonName.setText(current.getName());
+        holdr.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                ShowUsers.deletePerson(current.getId());
+                realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                results = realm.where(MyUsers.class).equalTo("id",current.getId()).findAll();
+                 results.deleteAllFromRealm();
+               // Toast.makeText(view.getContext(), "ssssss"+current.getId() , Toast.LENGTH_SHORT).show();
+                realm.commitTransaction();
+                notifyDataSetChanged();
+                context.startActivity(new Intent(context, ShowUsers.class));
+            }
+        });
+
+        holdr.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyUsers dataToEdit = MainActivityFragment.getInstance().searchPerson(current.getId());
+                MainActivityFragment.getInstance().addOrUpdatePersonDetailsDialog(dataToEdit,i);
+            }
+        });
+
         return view;
     }
+
+
+//    public void deleteItm(final int positin)
+//    {
+//        results = realm.where(MyUsers.class).equalTo("id",positin).findAll();
+//                realm.beginTransaction();
+//                results.deleteAllFromRealm();
+//                realm.commitTransaction();
+//    }
 
 
 }
