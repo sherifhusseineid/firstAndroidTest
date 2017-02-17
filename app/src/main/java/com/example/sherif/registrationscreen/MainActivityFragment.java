@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -68,7 +69,7 @@ public class MainActivityFragment extends Fragment {
 
     GPSTracker gps;
     Button registeration, dateOfBirth, sendLocation;
-    EditText personName, personEmail, personPassword, personConfirmPassword;
+    TextInputEditText personName, personEmail, personPassword, personConfirmPassword;
     TextView uploadPic;
     SwitchCompat subscribe;
     Spinner favMovies;
@@ -85,7 +86,8 @@ public class MainActivityFragment extends Fragment {
 //    public static final int RequestPermissionCode = 1;
     private Realm mRealm;
     private boolean isActionDown = false;
-
+    private LayoutInflater mInflater;
+    private ViewGroup mContainer;
      static MainActivityFragment instance;
 
     public MainActivityFragment() {
@@ -95,14 +97,17 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        mInflater = inflater;
+        mContainer = container;
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        personName = (EditText) view.findViewById(R.id.input_name);
+        personName = (TextInputEditText) view.findViewById(R.id.input_name);
         personNameLayout = (TextInputLayout) view.findViewById(R.id.input_name_layout);
-        personEmail = (EditText) view.findViewById(R.id.input_email);
+        personEmail = (TextInputEditText) view.findViewById(R.id.input_email);
         personEmailLayout = (TextInputLayout) view.findViewById(R.id.input_email_layout);
-        personPassword = (EditText) view.findViewById(R.id.input_password);
+        personPassword = (TextInputEditText) view.findViewById(R.id.input_password);
         personPasswordLayout = (TextInputLayout) view.findViewById(R.id.input_password_layout);
-        personConfirmPassword = (EditText) view.findViewById(R.id.input_confirmpassword);
+        personConfirmPassword = (TextInputEditText) view.findViewById(R.id.input_confirmpassword);
         PersonConfirmPasswordLayout = (TextInputLayout) view.findViewById(R.id.input_confirmpassword_layout);
         uploadPic = (TextView) view.findViewById(R.id.pickPic);
         imgView = (ImageView) view.findViewById(R.id.picImgView);
@@ -334,13 +339,18 @@ public class MainActivityFragment extends Fragment {
 
     public void addOrUpdatePersonDetailsDialog(final MyUsers model,final int position)
     {
-//        getView();
-        personName.setText(model.getName());
-        personEmail.setText(model.getEmail());
-        personPassword.setText(model.getPassword());
+        Toast.makeText(getActivity(), "This is "+model, Toast.LENGTH_LONG).show();
+        View promptsView = mInflater.inflate(R.layout.content_main, mContainer, false);
+        AlertDialog.Builder mainDialog = new AlertDialog.Builder(getContext());
+        mainDialog.setView(promptsView);
+        //onCreateView(mInflater,mContainer,savedInstanceState);
 
-
+        //personName.setText(model.getName(),TextView.BufferType.EDITABLE);
+//        personEmail.setText(model.getEmail());
+//        personPassword.setText(model.getPassword());
     }
+
+
 
 
     /* Get the real path from the URI */
