@@ -12,7 +12,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.sherif.registrationscreen.ShowUserDetails"
     tools:showIn="@layout/activity_show_user_details">
-
+    <LinearLayout
+        android:id="@+id/viewUserDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp" >
     <TextView
         android:text="name"
         android:layout_width="wrap_content"
@@ -62,14 +67,37 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginBottom="10dp"/>
+</LinearLayout>
 
-    <!--<TextView-->
-        <!--android:text="Birth date"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/subscribe"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_marginStart="14dp"-->
-        <!--android:layout_marginTop="50dp"-->
-        <!--android:id="@+id/birthDate" />-->
+    <LinearLayout
+        android:id="@+id/editUserDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/input_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"
+            android:inputType="textCapWords" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/input_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/input_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/Password"
+            android:inputType="textPassword" />
+
+
+        </LinearLayout>
+
 </RelativeLayout>
