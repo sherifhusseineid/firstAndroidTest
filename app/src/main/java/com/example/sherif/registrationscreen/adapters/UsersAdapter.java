@@ -106,8 +106,8 @@ public class UsersAdapter extends BaseAdapter {
         holdr.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyUsers dataToEdit = MainActivityFragment.getInstance().searchPerson(current.getId());
-                MainActivityFragment.getInstance().addOrUpdatePersonDetailsDialog(dataToEdit,i);
+                MyUsers dataToEdit = ShowUsers.getInstance().searchPerson(current.getId());
+                ShowUsers.getInstance().addOrUpdatePersonDetailsDialog(dataToEdit,i);
             }
         });
 
