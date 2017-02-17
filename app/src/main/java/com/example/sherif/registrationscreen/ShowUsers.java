@@ -46,12 +46,17 @@ import static android.R.attr.id;
 import static android.content.ContentValues.TAG;
 
 public class ShowUsers extends AppCompatActivity {
-   private Realm realm;
+
     RealmResults<MyUsers> results;
     ListView lvPersonNameList;
     TextView tvPersonName;
     ImageView delete;
+    Realm realm;
     private static ShowUsers instance;
+
+    public ShowUsers() {
+
+    }
 
     public static  ShowUsers getInstance()
     {
@@ -117,16 +122,21 @@ public class ShowUsers extends AppCompatActivity {
 
     }
 
-    public static void deletePerson(int personId)
+    public MyUsers searchPerson(int personId)
     {
-       // Toast.makeText(new MainActivity(), "ssssss"+personId , Toast.LENGTH_SHORT).show();
-//        Realm realm;
-//        realm = Realm.getDefaultInstance();
-//        RealmResults<MyUsers> results = realm.where(MyUsers.class).equalTo("id", personId).findAll();
-//        realm.beginTransaction();
-//        results.deleteFromRealm(personId);
-//        realm.commitTransaction();
+        realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        RealmResults<MyUsers> resultsUser = realm.where(MyUsers.class).equalTo("id", personId).findAll();
+        realm.commitTransaction();
+        return resultsUser.get(0);
+    }
 
+    public void addOrUpdatePersonDetailsDialog(final MyUsers model,final int position)
+    {
+
+        Toast.makeText(ShowUsers.this, "Ya rab" + model, Toast.LENGTH_LONG).show();
+//      editName.setText(model.getName());
+//        personPassword.setText(model.getPassword());
     }
 
 
