@@ -133,10 +133,9 @@ public class ShowUsers extends AppCompatActivity {
 
     public void addOrUpdatePersonDetailsDialog(final MyUsers model,final int position)
     {
-
         Toast.makeText(ShowUsers.this, "Ya rab" + model, Toast.LENGTH_LONG).show();
 //      editName.setText(model.getName());
-//        personPassword.setText(model.getPassword());
+//       personPassword.setText(model.getPassword());
     }
 
 
