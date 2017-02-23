@@ -13,9 +13,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.SparseArray;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.widget.AbsListView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -71,8 +77,8 @@ public class ShowUsers extends AppCompatActivity {
         setSupportActionBar(toolbar);
         lvPersonNameList =  (ListView) findViewById(R.id.lvPersonNameList);
         tvPersonName = (TextView) findViewById(R.id.tvPersonName);
-        delete = (ImageView) findViewById(R.id.cell_trash_button);
-        final UsersAdapter adapter = new UsersAdapter(this,realm.where(MyUsers.class).findAll());
+        //delete = (ImageView) findViewById(R.id.cell_trash_button);
+        final UsersAdapter adapter = new UsersAdapter(this,R.layout.inflate_list_item,realm.where(MyUsers.class).findAll());
 
 //        Map<String,String> userMap;
 
@@ -81,7 +87,7 @@ public class ShowUsers extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MyUsers user = adapter.getItem(i);
-//                Toast.makeText(ShowUsers.this, "Your "+ user.getEmail(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(ShowUsers.this, "Your "+ user.getEmail(), Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(ShowUsers.this,ShowUserDetails.class);
                 intent.putExtra("userName", user.getName());
@@ -93,6 +99,71 @@ public class ShowUsers extends AppCompatActivity {
 //                intent.putExtra("birthDate",user.getBirthDate());
                 startActivity(intent);
 
+            }
+        });
+
+
+        lvPersonNameList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        // Capture ListView item click
+        lvPersonNameList.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode,
+                                                  int position, long id, boolean checked) {
+                // Capture total checked items
+                final int checkedCount = lvPersonNameList.getCheckedItemCount();
+                // Set the CAB title according to total checked items
+                mode.setTitle(checkedCount + " Selected");
+                // Calls toggleSelection method from ListViewAdapter Class
+
+                adapter.toggleSelection(position);
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.delete:
+                        // Calls getSelectedIds method from ListViewAdapter Class
+                        SparseBooleanArray selected = adapter
+                                .getSelectedIds();
+                        // Captures all selected ids with a loop
+                        for (int i = (selected.size() - 1); i >= 0; i--) {
+                            if (selected.valueAt(i)) {
+                                MyUsers selecteditem = adapter
+                                        .getItem(selected.keyAt(i));
+                                // Remove selected items following the ids
+                                RealmResults<MyUsers> resultsDelete;
+                                realm.beginTransaction();
+                                resultsDelete = realm.where(MyUsers.class).equalTo("id",selecteditem.getId()).findAll();
+                                resultsDelete.deleteAllFromRealm();
+                                realm.commitTransaction();
+                                adapter.remove(selecteditem);
+                            }
+                        }
+                        // Close CAB
+                        mode.finish();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                mode.getMenuInflater().inflate(R.menu.menu, menu);
+                return true;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                // TODO Auto-generated method stub
+                adapter.removeSelection();
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                // TODO Auto-generated method stub
+                return false;
             }
         });
 
@@ -116,10 +187,6 @@ public class ShowUsers extends AppCompatActivity {
 //                return true;
 //            }
 //        });
-
-
-
-
     }
 
     public MyUsers searchPerson(int personId)
@@ -135,9 +202,6 @@ public class ShowUsers extends AppCompatActivity {
     {
         Toast.makeText(ShowUsers.this, "Ya rab" + model, Toast.LENGTH_LONG).show();
 //      editName.setText(model.getName());
-//       personPassword.setText(model.getPassword());
+//      personPassword.setText(model.getPassword());
     }
-
-
-
 }
