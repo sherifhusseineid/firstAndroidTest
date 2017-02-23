@@ -43,8 +43,8 @@ public class ShowUserDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_user_details);
-        showDetails = (LinearLayout) findViewById(R.id.viewUserDetails);
-        editUser = (LinearLayout) findViewById(R.id.editUserDetails);
+//        showDetails = (LinearLayout) findViewById(R.id.viewUserDetails);
+//        editUser = (LinearLayout) findViewById(R.id.editUserDetails);
         mRealm = Realm.getDefaultInstance();
         instance = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -71,7 +71,7 @@ public class ShowUserDetails extends AppCompatActivity {
         favMovies = (TextView) findViewById(R.id.favMovies);
         profilePic = (ImageView) findViewById(R.id.display_image);
 //        birthDate = (TextView) findViewById(R.id.birthDate);
-        editUser.setVisibility(LinearLayout.GONE);
+       // editUser.setVisibility(LinearLayout.GONE);
         name.setText(userName);
         email.setText(userEmail);
         password.setText(userPassword);
@@ -80,7 +80,7 @@ public class ShowUserDetails extends AppCompatActivity {
         profilePic.setImageBitmap(bmp);
     }
         else{
-            showDetails.setVisibility(LinearLayout.GONE);
+           // showDetails.setVisibility(LinearLayout.GONE);
             editName = (EditText) findViewById(R.id.input_name);
             editEmail = (EditText) findViewById(R.id.input_email);
             editPassword = (EditText) findViewById(R.id.input_password);
