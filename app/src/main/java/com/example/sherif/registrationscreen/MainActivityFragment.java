@@ -68,7 +68,7 @@ public class MainActivityFragment extends Fragment {
    //     String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
 
     GPSTracker gps;
-    Button registeration, dateOfBirth, sendLocation;
+    Button registeration, dateOfBirth, sendLocation,showUsers;
     TextInputEditText personName, personEmail, personPassword, personConfirmPassword;
     TextView uploadPic;
     SwitchCompat subscribe;
@@ -118,6 +118,7 @@ public class MainActivityFragment extends Fragment {
         registeration = (Button) view.findViewById(R.id.btn_signup);
         subscribe = (SwitchCompat) view.findViewById(R.id.subscribe);
         favMovies = (Spinner) view.findViewById(R.id.spinner);
+        showUsers = (Button) view.findViewById(R.id.btn_showUser);
         mRealm = Realm.getDefaultInstance();
         instance = this;
         inputValidations userName = new inputValidations(personName, personNameLayout, registeration, 4);
@@ -128,6 +129,8 @@ public class MainActivityFragment extends Fragment {
         email.validateEmail();
         password.validatePassword();
         confirmPassword.validateConfirmPassword();
+
+
 
 
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
@@ -238,6 +241,15 @@ public class MainActivityFragment extends Fragment {
                     // Ask user to enable GPS/network in settings
                     gps.showSettingsAlert();
                 }
+            }
+        });
+
+        showUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),ShowUsers.class);
+                //intent.putExtra("age",ageText.getText().toString());
+                startActivity(intent);
             }
         });
         registeration.setOnClickListener(new View.OnClickListener() {
