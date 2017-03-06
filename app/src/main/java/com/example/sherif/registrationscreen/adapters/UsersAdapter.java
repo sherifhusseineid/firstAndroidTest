@@ -57,9 +57,6 @@ public class UsersAdapter extends ArrayAdapter<MyUsers>{
     private static class ViewHolder
     {
         TextView tvPersonName;
-        ImageView delete;
-        ImageView edit;
-
     }
 
 
