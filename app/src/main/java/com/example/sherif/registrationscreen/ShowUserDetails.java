@@ -13,8 +13,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.sherif.registrationscreen.adapters.UserDetailsAdapter;
+import com.example.sherif.registrationscreen.adapters.UsersAdapter;
 
 import org.w3c.dom.Text;
 
@@ -26,13 +30,15 @@ import io.realm.RealmResults;
 
 public class ShowUserDetails extends AppCompatActivity {
 
-    TextView name,email,password,subscribe,favMovies,birthDate;
-    EditText editName,editEmail,editPassword;
+    TextView name, email, password, subscribe, favMovies, birthDate;
+    EditText editName, editEmail, editPassword;
     ImageView profilePic;
+    ListView showUserInformation;
     private LinearLayout showDetails;
-    private  LinearLayout editUser;
+    private LinearLayout editUser;
     private Realm mRealm;
     static ShowUserDetails instance;
+    static public String userIdKey = "userID";
 
 
     public ShowUserDetails() {
@@ -49,42 +55,35 @@ public class ShowUserDetails extends AppCompatActivity {
         instance = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        showUserInformation = (ListView) findViewById(R.id.showUserInformation);
+        //final UserDetailsAdapter DetailsAdapter = new UserDetailsAdapter(this,mRealm.where(MyUsers.class).findAll());
 
-        if (getIntent().getExtras() != null)
-        {
+        //if (getIntent().getExtras() != null) {
             Intent userDetails = getIntent();
-            String userName = userDetails.getStringExtra("userName");
-            String userEmail = userDetails.getStringExtra("email");
-            String userPassword = userDetails.getStringExtra("password");
-            String userSubscribe = userDetails.getStringExtra("subscribe");
-            String userFavMovies = userDetails.getStringExtra("favMovies");
-            String userBirthDate = userDetails.getStringExtra("birthDate");
-//        String userProfilePic = userDetails.getStringExtra("profilePic");
-//        Bitmap bitmap = (Bitmap) userDetails.getParcelableExtra("profilePic");
+            int userID = userDetails.getIntExtra(userIdKey, 0);
+           //MyUsers current = mRealm.where(MyUsers.class).equalTo("id", userID).findFirst();
+            //Toast.makeText(ShowUserDetails.this, "Your "+ current, Toast.LENGTH_LONG).show();
+            final UserDetailsAdapter adapter = new UserDetailsAdapter(this,mRealm.where(MyUsers.class).findAll());
+            showUserInformation.setAdapter(adapter);
+//            name = (TextView) findViewById(R.id.name);
+//            email = (TextView) findViewById(R.id.email);
+//            password = (TextView) findViewById(R.id.password);
+//            subscribe = (TextView) findViewById(R.id.subscribe);
+//            favMovies = (TextView) findViewById(R.id.favMovies);
+//            profilePic = (ImageView) findViewById(R.id.display_image);
 
-            byte[] byteArray = getIntent().getByteArrayExtra("profilePic");
-            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        name = (TextView) findViewById(R.id.name);
-        email = (TextView) findViewById(R.id.email);
-        password = (TextView) findViewById(R.id.password);
-        subscribe = (TextView) findViewById(R.id.subscribe);
-        favMovies = (TextView) findViewById(R.id.favMovies);
-        profilePic = (ImageView) findViewById(R.id.display_image);
-//        birthDate = (TextView) findViewById(R.id.birthDate);
-       // editUser.setVisibility(LinearLayout.GONE);
-        name.setText(userName);
-        email.setText(userEmail);
-        password.setText(userPassword);
-        subscribe.setText(userSubscribe);
-        favMovies.setText(userFavMovies);
-        profilePic.setImageBitmap(bmp);
-    }
-        else{
-           // showDetails.setVisibility(LinearLayout.GONE);
-            editName = (EditText) findViewById(R.id.input_name);
-            editEmail = (EditText) findViewById(R.id.input_email);
-            editPassword = (EditText) findViewById(R.id.input_password);
-        }
+//          birthDate = (TextView) findViewById(R.id.birthDate);
+            //   editUser.setVisibility(LinearLayout.GONE);
+
+//            name.setText(current.getName());
+//            email.setText(current.getEmail());
+//            password.setText(current.getPassword());
+//            subscribe.setText(current.getSubscribe());
+//            favMovies.setText(current.getFavMovies());
+//            byte[] byteArray = current.getProfilePic();
+//            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+//            profilePic.setImageBitmap(bmp);
+        //}
 
 //        birthDate.setText(userBirthDate);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -98,8 +97,7 @@ public class ShowUserDetails extends AppCompatActivity {
 
     }
 
-    public static  ShowUserDetails getInstance()
-    {
+    public static ShowUserDetails getInstance() {
         return instance;
     }
 

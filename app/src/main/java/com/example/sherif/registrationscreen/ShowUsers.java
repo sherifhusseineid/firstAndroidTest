@@ -90,15 +90,8 @@ public class ShowUsers extends AppCompatActivity {
                 //Toast.makeText(ShowUsers.this, "Your "+ user.getEmail(), Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(ShowUsers.this,ShowUserDetails.class);
-                intent.putExtra("userName", user.getName());
-                intent.putExtra("email", user.getEmail());
-                intent.putExtra("password", user.getPassword());
-                intent.putExtra("subscribe",user.getSubscribe());
-                intent.putExtra("favMovies",user.getFavMovies());
-                intent.putExtra("profilePic",user.getProfilePic());
-//                intent.putExtra("birthDate",user.getBirthDate());
+                intent.putExtra(ShowUserDetails.userIdKey,user.getId());
                 startActivity(intent);
-
             }
         });
 
