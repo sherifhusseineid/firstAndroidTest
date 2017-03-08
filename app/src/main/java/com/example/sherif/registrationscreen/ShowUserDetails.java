@@ -30,7 +30,7 @@ import io.realm.RealmResults;
 
 public class ShowUserDetails extends AppCompatActivity {
 
-    TextView name, email, password, subscribe, favMovies, birthDate;
+    TextView name, email, password, subscribe, favMovies, birthDate,user_profile_name;
     EditText editName, editEmail, editPassword;
     ImageView profilePic;
     ListView showUserInformation;
@@ -63,15 +63,16 @@ public class ShowUserDetails extends AppCompatActivity {
             int userID = userDetails.getIntExtra(userIdKey, 0);
            //MyUsers current = mRealm.where(MyUsers.class).equalTo("id", userID).findFirst();
             //Toast.makeText(ShowUserDetails.this, "Your "+ current, Toast.LENGTH_LONG).show();
-            final UserDetailsAdapter adapter = new UserDetailsAdapter(this,mRealm.where(MyUsers.class).findAll());
-            showUserInformation.setAdapter(adapter);
-//            name = (TextView) findViewById(R.id.name);
-//            email = (TextView) findViewById(R.id.email);
-//            password = (TextView) findViewById(R.id.password);
-//            subscribe = (TextView) findViewById(R.id.subscribe);
-//            favMovies = (TextView) findViewById(R.id.favMovies);
-//            profilePic = (ImageView) findViewById(R.id.display_image);
+            name = (TextView) findViewById(R.id.name);
+            email = (TextView) findViewById(R.id.email);
+            password = (TextView) findViewById(R.id.password);
+            subscribe = (TextView) findViewById(R.id.subscribe);
+            favMovies = (TextView) findViewById(R.id.favMovies);
+            user_profile_name = (TextView) findViewById(R.id.user_profile_name);
+            profilePic = (ImageView) findViewById(R.id.display_image);
 
+            final UserDetailsAdapter adapter = new UserDetailsAdapter(this,mRealm.where(MyUsers.class).equalTo("id", userID).findFirst());
+            showUserInformation.setAdapter(adapter);
 //          birthDate = (TextView) findViewById(R.id.birthDate);
             //   editUser.setVisibility(LinearLayout.GONE);
 
