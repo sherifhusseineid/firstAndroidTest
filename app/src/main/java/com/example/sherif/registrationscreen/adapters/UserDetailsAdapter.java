@@ -29,11 +29,11 @@ import io.realm.RealmResults;
 public class UserDetailsAdapter extends BaseAdapter{
 
     private final Activity context;
-    private RealmResults<MyUsers> results;
+    private MyUsers results;
     Realm realm;
 
 
-    public UserDetailsAdapter(Activity context,RealmResults<MyUsers> results) {
+    public UserDetailsAdapter(Activity context, MyUsers results) {
         this.context = context;
         this.results = results;
     }
@@ -46,25 +46,26 @@ public class UserDetailsAdapter extends BaseAdapter{
 
     private static class ViewHolder
     {
-        TextView name,email,password,subscribe,favMovies;
+        TextView name,email,password,subscribe,favMovies,user_profile_name;
         ImageView display_image;
     }
 
 
     @Override
     public int getCount() {
-        return 0;
+        return 1;
     }
 
     @Override
     public MyUsers getItem(int i) {
-        return null;
+        return results;
     }
 
     @Override
     public long getItemId(int i) {
         return 0;
     }
+
 
     @Override
     public View getView(final int i, final View convertView, ViewGroup viewGroup) {
@@ -80,6 +81,7 @@ public class UserDetailsAdapter extends BaseAdapter{
             viewHolder.password = (TextView) view.findViewById(R.id.password);
             viewHolder.subscribe = (TextView) view.findViewById(R.id.subscribe);
             viewHolder.favMovies = (TextView) view.findViewById(R.id.favMovies);
+            viewHolder.user_profile_name = (TextView) view.findViewById(R.id.user_profile_name);
             viewHolder.display_image = (ImageView) view.findViewById(R.id.display_image);
             view.setTag(viewHolder);
         }
@@ -92,6 +94,7 @@ public class UserDetailsAdapter extends BaseAdapter{
         final MyUsers currentResult = getItem(i);
 //        Toast.makeText(view.getContext(), "ssssss"+currentResult.getId() , Toast.LENGTH_SHORT).show();
         UserDetailsAdapter.ViewHolder holder = (UserDetailsAdapter.ViewHolder) view.getTag();
+        holder.user_profile_name.setText("Show "+currentResult.getName()+" Details");
         holder.name.setText(currentResult.getName());
         holder.email.setText(currentResult.getEmail());
         holder.password.setText(currentResult.getPassword());
